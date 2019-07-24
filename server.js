@@ -6,6 +6,9 @@ const app = express();
 // Connect Database
 connectDB();
 
+// Init MiddleWare
+app.use(express.json({extended: false}));
+
 const users = require("./routes/api/users");
 const auth = require("./routes/api/auth");
 const profile = require("./routes/api/profile");
