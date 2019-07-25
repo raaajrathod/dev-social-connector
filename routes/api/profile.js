@@ -4,6 +4,8 @@ const authMiddleware = require("../middleware/authMiddleware");
 const Profile = require("../../model/Profile");
 const User = require("../../model/User");
 const {check, validationResult} = require("express-validator");
+const request = require("request");
+const config = require("config");
 
 // POST api/profile/delete-profile
 // Delete Profile & User & Post
@@ -223,7 +225,7 @@ router.put(
           ]
         });
       }
-      console.log(profile);
+      // console.log(profile);
       profile.experiances.unshift(newExp);
 
       await profile.save();
@@ -239,10 +241,25 @@ router.put(
 // DELETE api/profile/delete-expriance
 // Add User Expeiance
 // Private
-
-router.delete("/delete-experiance", authMiddleware, async (req, res) => {
+router.delete("/delete-experiance/:id", authMiddleware, async (req, res) => {
   try {
-  } catch (error) {}
+    const profile = await Profile.findOne({user: req.user.id});
+
+    // Get Remove Index
+    const removeIndex = profile.experiances
+      .map(item => item.id)
+      .indexOf(req.params.id);
+
+    if (removeIndex != -1) profile.experiances.splice(removeIndex, 1);
+
+    // profile.experiances.filter(item => item._id != req.params.id);
+
+    await profile.save();
+    res.json(profile);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send("Something Went Wrong. Please Try Again");
+  }
 });
 
 // [
@@ -262,5 +279,133 @@ router.delete("/delete-experiance", authMiddleware, async (req, res) => {
 //       .isEmpty()
 //   ]
 // ];
+
+// PUT api/profile/add-education
+// Add User Education
+// Private
+router.put(
+  "/add-education",
+  [
+    authMiddleware,
+    [
+      check("school", "Please Enter School")
+        .not()
+        .isEmpty(),
+      check("degree", "Please Add Degree")
+        .not()
+        .isEmpty(),
+      check("fieldofstudy", "Please Add Field of Study")
+        .not()
+        .isEmpty(),
+      check("from", "Please Add From Date")
+        .not()
+        .isEmpty()
+    ]
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({errors: errors.array()});
+    }
+
+    const {
+      school,
+      degree,
+      fieldofstudy,
+      from,
+      to,
+      current,
+      description
+    } = req.body;
+
+    const newEducation = {
+      school,
+      degree,
+      fieldofstudy,
+      from,
+      to,
+      current,
+      description
+    };
+
+    try {
+      const profile = await Profile.findOne({user: req.user.id});
+
+      if (!profile) {
+        return res.status(400).json({
+          errors: [
+            {
+              msg: "Please Add Profile"
+            }
+          ]
+        });
+      }
+      // console.log(profile);
+      profile.education.unshift(newEducation);
+
+      await profile.save();
+
+      res.json(profile);
+    } catch (error) {
+      console.log(error.message);
+      res.status(500).send("Something Went Wrong. Please Try Again");
+    }
+  }
+);
+
+// DELETE api/profile/delete-education
+// Add User Educaation
+// Private
+router.delete("/delete-education/:id", authMiddleware, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({user: req.user.id});
+
+    // Get Remove Index
+    const removeIndex = profile.education
+      .map(item => item.id)
+      .indexOf(req.params.id);
+
+    if (removeIndex != -1) profile.education.splice(removeIndex, 1);
+
+    // profile.experiances.filter(item => item._id != req.params.id);
+
+    await profile.save();
+    res.json(profile);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send("Something Went Wrong. Please Try Again");
+  }
+});
+
+// GET api/profile/get-guthub-repos/:username
+// Get Github Repos
+// Public
+router.get("/get-github-repos/:username", (req, res) => {
+  try {
+    const options = {
+      uri: `https://api.github.com/users/${
+        req.params.username
+      }/repos?per_page=5&sort=created:asc&client_id=${config.get(
+        "githubClientId"
+      )}&client_secret==${config.get("githubClientSecret")}`,
+      method: "GET",
+      headers: {
+        "user-agent": "node.js"
+      }
+    };
+    request(options, (error, response, body) => {
+      if (error) console.log(error);
+
+      if (response.statusCode !== 200) {
+        return res.status(404).json({msg: "No Github Profile Found"});
+      }
+      res.json(JSON.parse(body));
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send("Something Went Wrong. Please Try Again");
+  }
+});
 
 module.exports = router;
