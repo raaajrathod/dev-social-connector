@@ -5,6 +5,25 @@ const Profile = require("../../model/Profile");
 const User = require("../../model/User");
 const {check, validationResult} = require("express-validator");
 
+// POST api/profile/delete-profile
+// Delete Profile & User & Post
+// Private
+router.delete("/delete", authMiddleware, async (req, res) => {
+  try {
+    // Remove Profile
+    await Profile.findOneAndRemove({user: req.user.id});
+    // Remove Users Post
+
+    // Remove User
+    await User.findByIdAndRemove({_id: req.user.id});
+
+    res.json({msg: "User Deleted Successfully"});
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send("Something Went Wrong. Please Try Again");
+  }
+});
+
 // POST api/profile/find-by-user-id/:id
 // Get Profile By Id
 // Public
@@ -150,5 +169,98 @@ router.post(
     }
   }
 );
+
+// PUT api/profile/add-expriance
+// Add User Expeiance
+// Private
+router.put(
+  "/add-experiance",
+  [
+    authMiddleware,
+    [
+      check("title", "Please Enter Title")
+        .not()
+        .isEmpty(),
+      check("company", "Please Add Company")
+        .not()
+        .isEmpty(),
+      check("location", "Please Add Location")
+        .not()
+        .isEmpty(),
+      check("from", "Please Add From Date")
+        .not()
+        .isEmpty()
+    ]
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({errors: errors.array()});
+    }
+
+    const {title, company, location, from, to, current, description} = req.body;
+
+    const newExp = {
+      title,
+      company,
+      location,
+      from,
+      to,
+      current,
+      description
+    };
+
+    try {
+      const profile = await Profile.findOne({user: req.user.id});
+
+      if (!profile) {
+        return res.status(400).json({
+          errors: [
+            {
+              msg: "Please Add Profile"
+            }
+          ]
+        });
+      }
+      console.log(profile);
+      profile.experiances.unshift(newExp);
+
+      await profile.save();
+
+      res.json(profile);
+    } catch (error) {
+      console.log(error.message);
+      res.status(500).send("Something Went Wrong. Please Try Again");
+    }
+  }
+);
+
+// DELETE api/profile/delete-expriance
+// Add User Expeiance
+// Private
+
+router.delete("/delete-experiance", authMiddleware, async (req, res) => {
+  try {
+  } catch (error) {}
+});
+
+// [
+//   authMiddleware,
+//   [
+//     check("school", "Please Enter School")
+//       .not()
+//       .isEmpty(),
+//     check("degree", "Please Add Degree")
+//       .not()
+//       .isEmpty(),
+//     check("fieldofstudy", "Please Add Field of Study")
+//       .not()
+//       .isEmpty(),
+//     check("from", "Please Add From Date")
+//       .not()
+//       .isEmpty()
+//   ]
+// ];
 
 module.exports = router;
