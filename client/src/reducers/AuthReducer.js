@@ -5,7 +5,8 @@ import {
   LOGIN_ERROR,
   USER_LOADED,
   AUTH_ERROR,
-  LOGOUT
+  LOGOUT,
+  CLEAR_TOKEN
 } from "../actions/Types";
 
 const initialState = {
@@ -43,6 +44,15 @@ export default (state = initialState, action) => {
         ...state,
         isAuthenticated: false,
         loading: false
+      };
+    case CLEAR_TOKEN:
+      localStorage.removeItem("devConnectorToken");
+      return {
+        ...state,
+        token: null,
+        isAuthenticated: null,
+        loading: true,
+        user: null
       };
 
     default:

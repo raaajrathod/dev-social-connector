@@ -9,4 +9,6 @@ export const LOGIN_ERROR = "LOGIN_ERROR";
 export const LOGOUT = "LOGOUT";
 export const LOAD_PROFILE = "LOAD_PROFILE";
 export const PROFILE_ERROR = "PROFILE_ERROR";
-
+export const CREATE_PROFILE = "CREATE_PROFILE";
+export const CLEAR_PROFILE = "CLEAR_PROFILE";
+export const CLEAR_TOKEN = "CLEAR_TOKEN";

@@ -112,10 +112,15 @@ router.post(
       bio,
       status,
       githubusername,
-      skills
+      skills,
+      youtube,
+      facebook,
+      twitter,
+      instagram,
+      linkedin
     } = req.body;
 
-    const {youtube, facebook, twitter, instagram, linkedin} = req.body.social;
+    // const {} = req.body.social;
 
     // Build Profile Object
     const profileFields = {};
@@ -407,8 +412,5 @@ router.get("/get-github-repos/:username", (req, res) => {
     res.status(500).send("Something Went Wrong. Please Try Again");
   }
 });
-
-
-
 
 module.exports = router;
