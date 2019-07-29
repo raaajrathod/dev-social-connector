@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import {loadProfile} from "../../actions/ProfileAction";
 import Spinner from "../layout/Spinner";
 import {Link} from "react-router-dom";
+import DashboardActions from "./DashboardActions";
 
 const Dashboard = ({ProfileReducer, auth, loadProfile}) => {
   useEffect(() => {
@@ -26,7 +27,9 @@ const Dashboard = ({ProfileReducer, auth, loadProfile}) => {
       </p>
 
       {profile !== null ? (
-        <Fragment>Hello</Fragment>
+        <Fragment>
+          <DashboardActions />
+        </Fragment>
       ) : (
         <Fragment>
           <h5> You Have not Created a Profile, Please add some info!</h5> {"  "}

@@ -3,7 +3,11 @@ import {
   LOAD_PROFILE,
   PROFILE_ERROR,
   CLEAR_PROFILE,
-  CREATE_PROFILE
+  CREATE_PROFILE,
+  ADD_EDUCATION,
+  ADD_EXPERIANCE,
+  EDUCATION_ERROR,
+  EXPERIANCE_ERROR
 } from "../actions/Types";
 
 const initialState = {
@@ -20,12 +24,16 @@ export default (state = initialState, action) => {
   switch (type) {
     case LOAD_PROFILE:
     case CREATE_PROFILE:
+    case ADD_EDUCATION:
+    case ADD_EXPERIANCE:
       return {
         ...state,
         profile: payload,
         loading: false
       };
     case PROFILE_ERROR:
+    case EDUCATION_ERROR:
+    case EXPERIANCE_ERROR:
       return {
         ...state,
         error: payload,
