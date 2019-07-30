@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {Link, withRouter} from "react-router-dom";
 import {createProfile, loadProfile} from "../../actions/ProfileAction";
-import {prototype} from "stream";
 
 const EditProfile = ({
   createProfile,
@@ -47,11 +46,11 @@ const EditProfile = ({
 
     if (profile !== null) {
       if (
-        twitter != "" ||
-        instagram != "" ||
-        facebook != "" ||
-        linkedin != "" ||
-        youtube != ""
+        twitter !== "" ||
+        instagram !== "" ||
+        facebook !== "" ||
+        linkedin !== "" ||
+        youtube !== ""
       ) {
         toggleSocialInput(true);
       }

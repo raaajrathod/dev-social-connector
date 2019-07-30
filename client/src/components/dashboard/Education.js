@@ -23,7 +23,7 @@ const Education = ({education, deleteEducation}) => {
     </tr>
   ));
 
-  if (education.length == 0) {
+  if (education.length === 0) {
     return <Fragment> </Fragment>;
   }
 
@@ -40,7 +40,7 @@ const Education = ({education, deleteEducation}) => {
           </tr>
         </thead>
         <tbody>
-          {educations.length == 0 ? <p>No Record Found</p> : educations}
+          {educations.length === 0 ? <p>No Record Found</p> : educations}
         </tbody>
       </table>
     </Fragment>

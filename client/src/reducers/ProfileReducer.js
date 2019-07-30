@@ -1,4 +1,4 @@
-import axios from "axios";
+// import axios from "axios";
 import {
   LOAD_PROFILE,
   PROFILE_ERROR,
@@ -10,7 +10,9 @@ import {
   EXPERIANCE_ERROR,
   DELETE_EXPERIENCE,
   DELETE_EDUCATION,
-  DELETE_PROFILE
+  DELETE_PROFILE,
+  LOAD_ALL_PROFILE,
+  GET_REPOS
 } from "../actions/Types";
 
 const initialState = {
@@ -36,6 +38,19 @@ export default (state = initialState, action) => {
         profile: payload,
         loading: false
       };
+    case LOAD_ALL_PROFILE:
+      return {
+        ...state,
+        profiles : payload,
+        loading : false
+      };
+    case GET_REPOS: {
+      return {
+        ...state,
+        repos: payload,
+        loading : false
+      }
+      }
     case PROFILE_ERROR:
     case EDUCATION_ERROR:
     case EXPERIANCE_ERROR:
@@ -51,7 +66,7 @@ export default (state = initialState, action) => {
         profile: null,
         profiles: [],
         repos: [],
-        loading: true,
+        loading: false,
         error: {}
       };
     default:

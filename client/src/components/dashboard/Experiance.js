@@ -23,7 +23,7 @@ const Experiance = ({experiance, deleteExperience}) => {
     </tr>
   ));
 
-  if (experiance.length == 0) {
+  if (experiance.length === 0) {
     return <Fragment> </Fragment>;
   }
   return (
@@ -39,7 +39,7 @@ const Experiance = ({experiance, deleteExperience}) => {
           </tr>
         </thead>
         <tbody>
-          {experiances.length == 0 ? <p>No Record Found</p> : experiances}
+          {experiances.length === 0 ? <p>No Record Found</p> : experiances}
         </tbody>
       </table>
     </Fragment>

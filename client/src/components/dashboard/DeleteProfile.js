@@ -18,9 +18,9 @@ DeleteProfile.propTypes = {
   deleteProfile: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => ({
-  user: state.AuthReducer.user
-});
+// const mapStateToProps = state => ({
+//   user: state.AuthReducer.user
+// });
 
 export default connect(
   null,

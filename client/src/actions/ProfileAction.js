@@ -9,7 +9,10 @@ import {
   DELETE_EXPERIENCE,
   DELETE_EDUCATION,
   DELETE_PROFILE,
-  CLEAR_TOKEN
+  CLEAR_TOKEN,
+  LOAD_ALL_PROFILE,
+  GET_REPOS,
+  CLEAR_PROFILE
 } from "./Types";
 import axios from "axios";
 import setAuthToken from "../util/setAuthToken";
@@ -25,6 +28,84 @@ export const loadProfile = () => async dispatch => {
 
     dispatch({
       type: LOAD_PROFILE,
+      payload: res.data
+    });
+  } catch (error) {
+    const errors = error.response.data.errors;
+
+    if (errors) {
+      errors.forEach(err => dispatch(setAlert(err.msg, "danger")));
+    }
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        msg: error.response.statusText,
+        status: error.response.status
+      }
+    });
+  }
+};
+
+//  Get All Profiles
+export const getAllProfile = () => async dispatch => {
+  dispatch({
+    type: CLEAR_PROFILE
+  });
+  try {
+    const res = await axios.get("/api/profile/get-all");
+
+    dispatch({
+      type: LOAD_ALL_PROFILE,
+      payload: res.data
+    });
+  } catch (error) {
+    const errors = error.response.data.errors;
+
+    if (errors) {
+      errors.forEach(err => dispatch(setAlert(err.msg, "danger")));
+    }
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        msg: error.response.statusText,
+        status: error.response.status
+      }
+    });
+  }
+};
+
+//  Get All Profiles
+export const getProfileById = userId => async dispatch => {
+  try {
+    const res = await axios.get(`/api/profile/find-by-user-id/${userId}`);
+
+    dispatch({
+      type: LOAD_PROFILE,
+      payload: res.data
+    });
+  } catch (error) {
+    const errors = error.response.data.errors;
+
+    if (errors) {
+      errors.forEach(err => dispatch(setAlert(err.msg, "danger")));
+    }
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        msg: error.response.statusText,
+        status: error.response.status
+      }
+    });
+  }
+};
+
+//  Get Github Repo
+export const getGithubRepos = userName => async dispatch => {
+  try {
+    const res = await axios.get(`/api/profile/get-github-repos/${userName}`);
+
+    dispatch({
+      type: GET_REPOS,
       payload: res.data
     });
   } catch (error) {
@@ -234,33 +315,35 @@ export const deleteEducation = id => async dispatch => {
 };
 
 export const deleteProfile = history => async dispatch => {
-  try {
-    const token = localStorage.getItem("devConnectorToken");
-    if (localStorage.devConnectorToken) {
-      setAuthToken(token);
-    }
-    const res = await axios.delete(`api/profile/delete`);
-
-    dispatch({
-      type: DELETE_PROFILE
-    });
-
-    dispatch({
-      type: CLEAR_TOKEN
-    });
-
-    history.push("/");
-  } catch (error) {
-    const errors = error.response.data.errors;
-    if (errors) {
-      errors.forEach(err => dispatch(setAlert(err.msg, "danger")));
-    }
-    dispatch({
-      type: PROFILE_ERROR,
-      payload: {
-        msg: error.response.statusText,
-        status: error.response.status
+  if (window.confirm("Are You Sure? This can Not be Undone!")) {
+    try {
+      const token = localStorage.getItem("devConnectorToken");
+      if (localStorage.devConnectorToken) {
+        setAuthToken(token);
       }
-    });
+     await axios.delete(`api/profile/delete`);
+
+      dispatch({
+        type: DELETE_PROFILE
+      });
+
+      dispatch({
+        type: CLEAR_TOKEN
+      });
+
+      history.push("/");
+    } catch (error) {
+      const errors = error.response.data.errors;
+      if (errors) {
+        errors.forEach(err => dispatch(setAlert(err.msg, "danger")));
+      }
+      dispatch({
+        type: PROFILE_ERROR,
+        payload: {
+          msg: error.response.statusText,
+          status: error.response.status
+        }
+      });
+    }
   }
 };

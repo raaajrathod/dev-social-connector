@@ -75,7 +75,8 @@ const AddExperiance = ({addExperiance, history}) => {
         </div>
         <div class='form-group'>
           <p>
-            <input type='checkbox' name='current' value='' /> Current Job
+            <input type='checkbox' name='current' value='' checked={current} />{" "}
+            Current Job
           </p>
         </div>
         <div class='form-group'>
