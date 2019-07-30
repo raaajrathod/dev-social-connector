@@ -2,8 +2,9 @@ import React, {Fragment} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import Moment from "react-moment";
+import {deleteEducation} from "../../actions/ProfileAction";
 
-const Education = ({education}) => {
+const Education = ({education, deleteEducation}) => {
   const educations = education.map(edu => (
     <tr key={edu._id}>
       <td>{edu.school}</td>
@@ -13,10 +14,18 @@ const Education = ({education}) => {
         {edu.current ? "Now" : <Moment format='YYYY/MM/DD'>{edu.to}</Moment>}
       </td>
       <td>
-        <button className='btn btn-danger'>Delete</button>
+        <button
+          onClick={() => deleteEducation(edu._id)}
+          className='btn btn-danger'>
+          Delete
+        </button>
       </td>
     </tr>
   ));
+
+  if (education.length == 0) {
+    return <Fragment> </Fragment>;
+  }
 
   return (
     <Fragment>
@@ -30,14 +39,20 @@ const Education = ({education}) => {
             <th />
           </tr>
         </thead>
-        <tbody>{educations}</tbody>
+        <tbody>
+          {educations.length == 0 ? <p>No Record Found</p> : educations}
+        </tbody>
       </table>
     </Fragment>
   );
 };
 
 Education.propTypes = {
-  education: PropTypes.array.isRequired
+  education: PropTypes.array.isRequired,
+  deleteEducation: PropTypes.func.isRequired
 };
 
-export default Education;
+export default connect(
+  null,
+  {deleteEducation}
+)(Education);

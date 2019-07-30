@@ -5,7 +5,11 @@ import {
   ADD_EDUCATION,
   ADD_EXPERIANCE,
   EDUCATION_ERROR,
-  EXPERIANCE_ERROR
+  EXPERIANCE_ERROR,
+  DELETE_EXPERIENCE,
+  DELETE_EDUCATION,
+  DELETE_PROFILE,
+  CLEAR_TOKEN
 } from "./Types";
 import axios from "axios";
 import setAuthToken from "../util/setAuthToken";
@@ -175,3 +179,88 @@ export const addExperiance = (
   }
 };
 
+export const deleteExperience = id => async dispatch => {
+  try {
+    const token = localStorage.getItem("devConnectorToken");
+    if (localStorage.devConnectorToken) {
+      setAuthToken(token);
+    }
+    const res = await axios.delete(`api/profile/delete-experiance/${id}`);
+
+    dispatch({
+      type: DELETE_EXPERIENCE,
+      payload: res.data
+    });
+  } catch (error) {
+    const errors = error.response.data.errors;
+    if (errors) {
+      errors.forEach(err => dispatch(setAlert(err.msg, "danger")));
+    }
+    dispatch({
+      type: EXPERIANCE_ERROR,
+      payload: {
+        msg: error.response.statusText,
+        status: error.response.status
+      }
+    });
+  }
+};
+
+export const deleteEducation = id => async dispatch => {
+  try {
+    const token = localStorage.getItem("devConnectorToken");
+    if (localStorage.devConnectorToken) {
+      setAuthToken(token);
+    }
+    const res = await axios.delete(`api/profile/delete-education/${id}`);
+
+    dispatch({
+      type: DELETE_EDUCATION,
+      payload: res.data
+    });
+  } catch (error) {
+    const errors = error.response.data.errors;
+    if (errors) {
+      errors.forEach(err => dispatch(setAlert(err.msg, "danger")));
+    }
+    dispatch({
+      type: EXPERIANCE_ERROR,
+      payload: {
+        msg: error.response.statusText,
+        status: error.response.status
+      }
+    });
+  }
+};
+
+export const deleteProfile = history => async dispatch => {
+  try {
+    const token = localStorage.getItem("devConnectorToken");
+    if (localStorage.devConnectorToken) {
+      setAuthToken(token);
+    }
+    const res = await axios.delete(`api/profile/delete`);
+
+    dispatch({
+      type: DELETE_PROFILE
+    });
+
+    dispatch({
+      type: CLEAR_TOKEN
+    });
+
+    history.push("/");
+  } catch (error) {
+    const errors = error.response.data.errors;
+    if (errors) {
+      errors.forEach(err => dispatch(setAlert(err.msg, "danger")));
+    }
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        msg: error.response.statusText,
+        status: error.response.status
+      }
+    });
+  }
+};

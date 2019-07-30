@@ -7,7 +7,10 @@ import {
   ADD_EDUCATION,
   ADD_EXPERIANCE,
   EDUCATION_ERROR,
-  EXPERIANCE_ERROR
+  EXPERIANCE_ERROR,
+  DELETE_EXPERIENCE,
+  DELETE_EDUCATION,
+  DELETE_PROFILE
 } from "../actions/Types";
 
 const initialState = {
@@ -26,6 +29,8 @@ export default (state = initialState, action) => {
     case CREATE_PROFILE:
     case ADD_EDUCATION:
     case ADD_EXPERIANCE:
+    case DELETE_EXPERIENCE:
+    case DELETE_EDUCATION:
       return {
         ...state,
         profile: payload,
@@ -40,6 +45,7 @@ export default (state = initialState, action) => {
         loading: false
       };
     case CLEAR_PROFILE:
+    case DELETE_PROFILE:
       return {
         ...state,
         profile: null,
