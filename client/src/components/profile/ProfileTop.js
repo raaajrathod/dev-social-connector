@@ -17,9 +17,12 @@ const ProfileTop = ({profile}) => {
         </p>
         <p>{profile.location && <span>{profile.location}</span>}</p>
 
-        {profile.social && (
+        {profile.social.githubusername && (
           <div className='icons my-1'>
-            <a href='#' target='_blank' rel='noopener noreferrer'>
+            <a
+              href={`https://github.com/${profile.social.githubusername}`}
+              target='_blank'
+              rel='noopener noreferrer'>
               <i className='fas fa-globe fa-2x' />
             </a>
             {profile.social.twitter && (

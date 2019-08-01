@@ -8,7 +8,7 @@ const ProfileGithub = ({getGithubRepos, profile: {repos}, username}) => {
     getGithubRepos(username);
   }, [getGithubRepos, username]);
 
-  if (repos.length == 0) {
+  if (repos.length === 0) {
     return <Fragment />;
   }
 
@@ -32,7 +32,9 @@ const ProfileGithub = ({getGithubRepos, profile: {repos}, username}) => {
               <li className='badge badge-primary'>
                 Stars: {repo.stargazers_count}
               </li>
-              <li className='badge badge-dark'>Watchers: {repo.watchers_count}</li>
+              <li className='badge badge-dark'>
+                Watchers: {repo.watchers_count}
+              </li>
               <li className='badge badge-light'>Forks: {repo.forks}</li>
             </ul>
           </div>
@@ -42,7 +44,11 @@ const ProfileGithub = ({getGithubRepos, profile: {repos}, username}) => {
   );
 };
 
-ProfileGithub.propTypes = {};
+ProfileGithub.propTypes = {
+  getGithubRepos: PropTypes.func.isRequired,
+  profile: PropTypes.func.isRequired,
+  username: PropTypes.string.isRequired
+};
 
 const mapStateToProps = state => ({
   profile: state.ProfileReducer

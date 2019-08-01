@@ -1,28 +1,28 @@
 import React, {useState} from "react";
 import PropTypes from "prop-types";
-import {addPost} from "../../actions/PostAction";
+import {addComment} from "../../actions/PostAction";
 import {connect} from "react-redux";
 
-const PostForm = ({addPost}) => {
+const PostComment = ({addComment, postId}) => {
   const [text, setText] = useState("");
 
-  const onSubmit = e => {
-    e.preventDefault();
-
-    addPost(text);
-    setText("");
-  };
   return (
     <div className='post-form'>
       <div className='bg-primary p'>
-        <h3>Say Something...</h3>
+        <h3>Leave A Comment</h3>
       </div>
-      <form className='form my-1' onSubmit={onSubmit}>
+      <form
+        className='form my-1'
+        onSubmit={e => {
+          e.preventDefault();
+          addComment(postId, text);
+          setText("");
+        }}>
         <textarea
           name='text'
           cols='30'
           rows='5'
-          placeholder='Create a post'
+          placeholder='Comment on this post'
           required
           value={text}
           onChange={e => setText(e.target.value)}
@@ -33,11 +33,13 @@ const PostForm = ({addPost}) => {
   );
 };
 
-PostForm.propTypes = {
-  addPost: PropTypes.func.isRequired
+PostComment.propTypes = {
+  addComment: PropTypes.func.isRequired
 };
 
 export default connect(
   null,
-  {addPost}
-)(PostForm);
+  {
+    addComment
+  }
+)(PostComment);

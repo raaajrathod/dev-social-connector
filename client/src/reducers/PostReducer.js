@@ -3,7 +3,10 @@ import {
   POST_ERROR,
   UPDATE_LIKES,
   DELETE_POST,
-  ADD_POST
+  ADD_POST,
+  GET_POST_DETAILS,
+  ADD_COMMENT,
+  REMOVE_COMMENT
 } from "../actions/Types";
 
 const initialState = {
@@ -32,6 +35,30 @@ export default (state = initialState, action) => {
       return {
         ...state,
         error: payload,
+        loading: false
+      };
+    case ADD_COMMENT:
+      return {
+        ...state,
+        post: {
+          ...state.post,
+          comments: payload
+        },
+        loading: false
+      };
+    case REMOVE_COMMENT:
+      return {
+        ...state,
+        post: {
+          ...state.post,
+          comments: payload
+        },
+        loading: false
+      };
+    case GET_POST_DETAILS:
+      return {
+        ...state,
+        post: payload,
         loading: false
       };
     case UPDATE_LIKES:

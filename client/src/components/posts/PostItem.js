@@ -48,7 +48,7 @@ const PostItem = ({auth, post, addLike, removeLike, deletePost}) => {
           </button>
         )}
 
-        <Link to='/post' className='btn btn-primary'>
+        <Link to={`/post/${post._id}`} className='btn btn-primary'>
           Discussion{" "}
           {post.comments.length > 0 && (
             <span className='comment-count'>{post.comments.length}</span>

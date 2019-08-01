@@ -13,6 +13,7 @@ import AddExperiance from "./components/dashboard/AddExperiance";
 import Profiles from "./components/profile/Profiles";
 import Profile from "./components/profile/Profile";
 import Posts from "./components/posts/Posts";
+import Post from "./components/posts/Post";
 import {loadUser} from "./actions/AuthAction";
 import setAuthToken from "./util/setAuthToken";
 import PrivateRoute from "./components/route/PrivateRoute";
@@ -65,6 +66,7 @@ const App = () => {
                 component={AddExperiance}
               />
               <PrivateRoute exact path='/posts' component={Posts} />
+              <PrivateRoute exact path='/post/:id' component={Post} />
             </Switch>
           </section>
         </Fragment>

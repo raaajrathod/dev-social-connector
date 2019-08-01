@@ -11,7 +11,7 @@ const Posts = ({getPost, post: {posts, loading}}) => {
     getPost();
   }, [getPost]);
 
-  if (posts.length == 0 && loading) {
+  if (posts.length === 0 && loading) {
     return <Spinner />;
   }
   return (
