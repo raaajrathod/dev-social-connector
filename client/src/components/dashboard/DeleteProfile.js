@@ -6,9 +6,9 @@ import {deleteProfile} from "../../actions/ProfileAction";
 
 const DeleteProfile = ({deleteProfile, history}) => {
   return (
-    <div class='my-2'>
-      <button class='btn btn-danger' onClick={() => deleteProfile(history)}>
-        <i class='fas fa-user-minus' /> Delete My Account
+    <div className='my-2'>
+      <button className='btn btn-danger' onClick={() => deleteProfile(history)}>
+        <i className='fas fa-user-minus' /> Delete My Account
       </button>
     </div>
   );
