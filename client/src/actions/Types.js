@@ -21,3 +21,6 @@ export const DELETE_EDUCATION = "DELETE_EDUCATION";
 export const DELETE_PROFILE = "DELETE_PROFILE";
 export const LOAD_ALL_PROFILE = "LOAD_ALL_PROFILE";
 export const GET_REPOS = "GET_REPOS";
+export const GET_POSTS = "GET_POSTS";
+export const POST_ERROR = "POST_ERROR";
+export const UPDATE_LIKES = "UPDATE_LIKES";
