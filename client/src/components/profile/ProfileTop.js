@@ -17,14 +17,16 @@ const ProfileTop = ({profile}) => {
         </p>
         <p>{profile.location && <span>{profile.location}</span>}</p>
 
-        {profile.social.githubusername && (
+        {profile.social && (
           <div className='icons my-1'>
-            <a
-              href={`https://github.com/${profile.social.githubusername}`}
-              target='_blank'
-              rel='noopener noreferrer'>
-              <i className='fas fa-globe fa-2x' />
-            </a>
+            {profile.social.githubusername && (
+              <a
+                href={`https://github.com/${profile.social.githubusername}`}
+                target='_blank'
+                rel='noopener noreferrer'>
+                <i className='fas fa-globe fa-2x' />
+              </a>
+            )}
             {profile.social.twitter && (
               <a
                 href={`https://twitter.com/${profile.social.twitter}`}
